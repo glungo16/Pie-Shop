@@ -6,7 +6,6 @@ namespace BethanysPieShop.Controllers
 {
     public class PieController : Controller
     {
-
         private readonly IPieRepository _pieRepository;
         private readonly ICategoryRepository _categoryRepository;
 
@@ -16,20 +15,43 @@ namespace BethanysPieShop.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        public IActionResult List()
+        //public IActionResult List()
+        //{
+        //    //ViewBag.CurrentCategory = "Cheese cakes";
+
+        //    //return View(_pieRepository.AllPies);
+
+        //    PieListViewModel piesListViewModel = new PieListViewModel(_pieRepository.AllPies, "Cheese cakes");
+        //    return View(piesListViewModel);
+        //}
+
+        public ViewResult List(string category)
         {
-            // ViewBag = dynamic variable - allows us to pass variables into the view files
-            //ViewBag.CurrentCategory = "Cheese cakes";
-            //return View(_pieRepository.AllPies);
+            IEnumerable<Pie> pies;
+            string? currentCategory;
 
-            PieListViewModel pieListViewModel = new PieListViewModel(_pieRepository.AllPies, "Cheese cakes");
+            if (string.IsNullOrEmpty(category))
+            {
+                pies = _pieRepository.AllPies.OrderBy(p => p.PieId);
+                currentCategory = "All pies";
+            }
+            else
+            {
+                pies = _pieRepository.AllPies.Where(p => p.Category.CategoryName == category)
+                    .OrderBy(p => p.PieId);
+                currentCategory = _categoryRepository.AllCategories.FirstOrDefault(c => c.CategoryName == category)?.CategoryName;
+            }
 
-            return View(pieListViewModel);
+            return View(new PieListViewModel(pies, currentCategory));
         }
 
-        public IActionResult Index()
+        public IActionResult Details(int id)
         {
-            return View();
+            var pie = _pieRepository.GetPieById(id);
+            if (pie == null)
+                return NotFound();
+
+            return View(pie);
         }
     }
 }
