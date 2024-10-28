@@ -25,4 +25,4 @@ A full-stack e-commerce web application using ASP.NET Core, allowing users to br
 
 ## Credits:
 
-This is a project I made based on Gill Cleeren's course on [ASP.NET Core Fundamentals](https://app.pluralsight.com/library/courses/asp-dot-net-core-6-fundamentals/transcript).
+This is a project I made based on Gill Cleeren's course on [ASP.NET Core Fundamentals](https://app.pluralsight.com/library/courses/asp-dot-net-core-6-fundamentals/table-of-contents).
